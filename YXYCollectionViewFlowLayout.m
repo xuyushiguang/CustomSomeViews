@@ -31,17 +31,16 @@
     self.columMargin = self.columMargin == 0 ? 10 : self.columMargin;
     self.rowMargin  = self.rowMargin == 0 ? 10 : self.rowMargin;
     self.defaultEdgeInsets = UIEdgeInsetsEqualToEdgeInsets(self.defaultEdgeInsets, UIEdgeInsetsZero) ? UIEdgeInsetsMake(10, 10, 10, 10) : self.defaultEdgeInsets;
+    
     //如果刷新布局就会重新调用prepareLayout这个方法,所以要先把高度数组清空
     [self.columnHeights removeAllObjects];
     for (int i = 0; i < self.columCount; i++) {
         [self.columnHeights addObject:@(self.defaultEdgeInsets.top)];
     }
     
-    NSInteger count = [self.collectionView numberOfItemsInSection:0];
-    
     [self.attrsArray removeAllObjects];
+    NSInteger count = [self.collectionView numberOfItemsInSection:0];
     for (NSInteger i = 0; i < count; i++) {
-        
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
         //获取indexPath 对应cell 的布局属性
         UICollectionViewLayoutAttributes *attr = [self layoutAttributesForItemAtIndexPath:indexPath];
@@ -73,7 +72,7 @@
         return attr;
     }else{
         //>=2列的时候
-        ///>如果设置
+        ///>每列第一个cell高度不同
         if (indexPath.item<self.columCount && self.isNoAlignment) {
             CGFloat w = (self.collectionView.frame.size.width - self.defaultEdgeInsets.left - self.defaultEdgeInsets.right - (self.columCount - 1) * self.columMargin )/self.columCount;
             CGFloat x = self.defaultEdgeInsets.left + indexPath.item*(w + self.columMargin);
